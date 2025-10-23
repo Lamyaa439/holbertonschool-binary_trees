@@ -13,3 +13,6 @@ if (!tree)
 		return (0);
 	for (depth = 0; tree->parent; depth++)
 	tree = tree->parent;
+
+	return (depth);
+}
