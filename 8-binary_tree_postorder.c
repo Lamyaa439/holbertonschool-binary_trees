@@ -6,3 +6,7 @@
  * @func: pointer to function to call for each node; value in the node is
  * passed as a parameter to `func`
  */
+void binary_tree_postorder(const binary_tree_t *tree, void (*func)(int))
+{
+	if (!tree || !func)
+		return;
