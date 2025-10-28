@@ -2,8 +2,8 @@
 #define _BINARY_TREES_H_
 
 #include <stddef.h>
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 /**
  * struct binary_tree_s - Binary tree node
@@ -55,7 +55,7 @@ int binary_tree_is_perfect(const binary_tree_t *tree);
 binary_tree_t *binary_tree_sibling(binary_tree_t *node);
 binary_tree_t *binary_tree_uncle(binary_tree_t *node);
 binary_tree_t *binary_trees_ancestor(const binary_tree_t *first,
-		const binary_tree_t *second);
+	const binary_tree_t *second);
 
 /* Rotations */
 binary_tree_t *binary_tree_rotate_right(binary_tree_t *tree);
@@ -66,7 +66,7 @@ int binary_tree_is_complete(const binary_tree_t *tree);
 
 /* BST-specific */
 bst_t *bst_insert(bst_t **tree, int value);
-bst_t *bst_search(bst_t *tree, int value);
+bst_t *bst_search(const bst_t *tree, int value);
 bst_t *array_to_bst(int *array, size_t size);
 
 /* AVL-specific */
@@ -78,7 +78,7 @@ void binary_tree_levelorder(const binary_tree_t *tree, void (*func)(int));
 /* Heap-specific */
 int binary_tree_is_heap(const binary_tree_t *tree);
 heap_t *array_to_heap(int *array, size_t size);
-int binary_tree_is_bst(const binary_tree_t *tree);
-bst_t *bst_search(const bst_t *tree, int value);
+heap_t *heap_extract(heap_t **root);
+heap_t *heap_insert(heap_t **root, int value);
 
 #endif /* _BINARY_TREES_H_ */
