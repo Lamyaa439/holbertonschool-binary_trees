@@ -68,6 +68,6 @@ bst_t *bst_insert(bst_t **tree, int value);
 bst_t *bst_search(const bst_t *tree, int value);
 bst_t *bst_remove(bst_t *root, int value);
 
-int binary_tree_is_complete(const binary_tree_t *tree);
+int binary_tree_is_avl(const binary_tree_t *tree);
 
 #endif /* _BINARY_TREES_H_ */
