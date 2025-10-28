@@ -7,8 +7,7 @@
  * @func: pointer to a function to call for each node
  */
 void binary_tree_levelorder(const binary_tree_t *tree,
-                            void (*func)(int))
-
+			    void (*func)(int))
 {
 	const binary_tree_t **queue;
 	size_t front = 0, rear = 0, size = 0;
@@ -37,12 +36,12 @@ void binary_tree_levelorder(const binary_tree_t *tree,
 		if (rear >= size)
 		{
 			size *= 2;
-			queue = realloc((void *) queue,
+			queue = realloc((void *)queue,
 					sizeof(binary_tree_t *) * size);
 			if (queue == NULL)
 				return;
 		}
 	}
 
-	free((void *) queue);
+	free((void *)queue);
 }
