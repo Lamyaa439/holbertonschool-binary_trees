@@ -28,17 +28,6 @@ size_t binary_tree_size(const binary_tree_t *tree)
  * Return: 1 if `tree` is complete, 0 if not or `tree` is NULL
  *
  * note: this scales `i` in a way that mimics the index values in an array
- * expression of the tree:
- *
- *         0
- *       /   \
- *      1     2
- *     / \   /
- *    3   4 5
- *
- * Since the indicies increment top to bottom, left to right, if there are any
- * in a position that is greater than or equal to (index starts at 0, size at
- * 1) the size, then we know they are not justified to the left.
  */
 int check_bt_complete(const binary_tree_t *tree, size_t i, size_t size)
 {
