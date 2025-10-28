@@ -70,5 +70,6 @@ bst_t *bst_remove(bst_t *root, int value);
 
 int binary_tree_is_avl(const binary_tree_t *tree);
 avl_t *array_to_avl(int *array, size_t size);
+typedef struct binary_tree_s avl_t;
 
 #endif /* _BINARY_TREES_H_ */
