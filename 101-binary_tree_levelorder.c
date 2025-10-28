@@ -14,7 +14,6 @@ void binary_tree_levelorder(const binary_tree_t *tree, void (*func)(int))
 	if (tree == NULL || func == NULL)
 		return;
 
-	/* allocate queue memory */
 	size = 1024;
 	queue = malloc(sizeof(binary_tree_t *) * size);
 	if (queue == NULL)
@@ -36,11 +35,12 @@ void binary_tree_levelorder(const binary_tree_t *tree, void (*func)(int))
 		if (rear >= size)
 		{
 			size *= 2;
-			queue = realloc((void *)queue, sizeof(binary_tree_t *) * size);
+			queue = realloc((void *) queue,
+					sizeof(binary_tree_t *) * size);
 			if (queue == NULL)
 				return;
 		}
 	}
 
-	free((void *)queue);
+	free((void *) queue);
 }
