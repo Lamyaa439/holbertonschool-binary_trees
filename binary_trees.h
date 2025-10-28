@@ -72,5 +72,10 @@ int binary_tree_is_avl(const binary_tree_t *tree);
 avl_t *array_to_avl(int *array, size_t size);
 typedef struct binary_tree_s avl_t;
 avl_t *avl_insert(avl_t **tree, int value);
+void binary_tree_levelorder(const binary_tree_t *tree, void (*func)(int));
+binary_tree_t *binary_tree_rotate_left(binary_tree_t *tree);
+int binary_tree_is_bst(const binary_tree_t *tree);
+bst_t *array_to_bst(int *array, size_t size);
+bst_t *bst_search(const bst_t *tree, int value);
 
 #endif /* _BINARY_TREES_H_ */
