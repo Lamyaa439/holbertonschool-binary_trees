@@ -78,5 +78,6 @@ void binary_tree_levelorder(const binary_tree_t *tree, void (*func)(int));
 /* Heap-specific */
 int binary_tree_is_heap(const binary_tree_t *tree);
 heap_t *array_to_heap(int *array, size_t size);
+int binary_tree_is_bst(const binary_tree_t *tree);
 
 #endif /* _BINARY_TREES_H_ */
