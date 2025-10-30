@@ -1,14 +1,14 @@
 #include "binary_trees.h"
 
 /**
- * bst_remove - removes a node from a BST tree
+ * bst_remove - removes a node from a BST
  * @root: pointer to root
  * @value: value to remove
- * Return: pointer to new root
+ * Return: new root
  */
 bst_t *bst_remove(bst_t *root, int value)
 {
-	bst_t *tmp = NULL;
+	bst_t *tmp, *successor;
 
 	if (!root)
 		return (NULL);
@@ -35,23 +35,22 @@ bst_t *bst_remove(bst_t *root, int value)
 			free(root);
 			return (tmp);
 		}
-		else
-		{
-			tmp = root->right;
-			while (tmp->left)
-				tmp = tmp->left;
-			root->n = tmp->n;
-			root->right = bst_remove(root->right, tmp->n);
-		}
+
+		successor = root->right;
+		while (successor->left)
+			successor = successor->left;
+
+		root->n = successor->n;
+		root->right = bst_remove(root->right, successor->n);
 	}
 	return (root);
 }
 
 /**
- * avl_remove - removes node from an AVL tree and balances it
- * @root: pointer to tree root
- * @value: value to remove
- * Return: pointer to new root
+ * avl_remove - removes a node in an AVL tree
+ * @root: pointer to root
+ * @value: value to delete
+ * Return: new root
  */
 avl_t *avl_remove(avl_t *root, int value)
 {
@@ -59,10 +58,10 @@ avl_t *avl_remove(avl_t *root, int value)
 		return (NULL);
 
 	root = (avl_t *)bst_remove(root, value);
-
 	if (!root)
 		return (NULL);
 
+	/* balance tree */
 	if (binary_tree_balance(root) > 1)
 	{
 		if (binary_tree_balance(root->left) >= 0)
