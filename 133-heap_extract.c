@@ -19,7 +19,6 @@ binary_tree_t *heap_get_last(binary_tree_t *root)
 	{
 		root = queue[head++];
 
-        /* enqueue children */
 		if (root->left)
 			queue[tail++] = root->left;
 		if (root->right)
@@ -72,8 +71,6 @@ int heap_extract(heap_t **root)
 		return (0);
 
 	value = (*root)->n;
-
-	/* find last node */
 	last = heap_get_last(*root);
 
 	if (last == *root)
@@ -83,19 +80,15 @@ int heap_extract(heap_t **root)
 		return (value);
 	}
 
-	/* replace root value with last node value */
 	(*root)->n = last->n;
-
-	/* detach last node */
 	parent = last->parent;
+
 	if (parent->left == last)
 		parent->left = NULL;
 	else
 		parent->right = NULL;
 
 	free(last);
-
-	/* heapify down */
 	heapify_down(*root);
 
 	return (value);
