@@ -1,14 +1,26 @@
 #include "binary_trees.h"
 
 /**
- * bst_remove - removes a node from a BST
- * @root: pointer to root
+ * bst_min_value - returns the node with the min value in a BST
+ * @node: pointer to the BST node
+ * Return: pointer to min node
+ */
+bst_t *bst_min_value(bst_t *node)
+{
+	while (node && node->left)
+		node = node->left;
+	return (node);
+}
+
+/**
+ * bst_remove - remove a node in a BST
+ * @root: pointer to the root node
  * @value: value to remove
- * Return: new root
+ * Return: pointer to the new root
  */
 bst_t *bst_remove(bst_t *root, int value)
 {
-	bst_t *tmp, *successor;
+	bst_t *min;
 
 	if (!root)
 		return (NULL);
@@ -21,36 +33,32 @@ bst_t *bst_remove(bst_t *root, int value)
 	{
 		if (!root->left)
 		{
-			tmp = root->right;
-			if (tmp)
-				tmp->parent = root->parent;
+			min = root->right;
+			if (min)
+				min->parent = root->parent;
 			free(root);
-			return (tmp);
+			return (min);
 		}
 		else if (!root->right)
 		{
-			tmp = root->left;
-			if (tmp)
-				tmp->parent = root->parent;
+			min = root->left;
+			if (min)
+				min->parent = root->parent;
 			free(root);
-			return (tmp);
+			return (min);
 		}
-
-		successor = root->right;
-		while (successor->left)
-			successor = successor->left;
-
-		root->n = successor->n;
-		root->right = bst_remove(root->right, successor->n);
+		min = bst_min_value(root->right);
+		root->n = min->n;
+		root->right = bst_remove(root->right, min->n);
 	}
 	return (root);
 }
 
 /**
- * avl_remove - removes a node in an AVL tree
+ * avl_remove - remove a node from an AVL tree
  * @root: pointer to root
  * @value: value to delete
- * Return: new root
+ * Return: pointer to new root
  */
 avl_t *avl_remove(avl_t *root, int value)
 {
@@ -61,7 +69,7 @@ avl_t *avl_remove(avl_t *root, int value)
 	if (!root)
 		return (NULL);
 
-	/* balance tree */
+	/* rebalance */
 	if (binary_tree_balance(root) > 1)
 	{
 		if (binary_tree_balance(root->left) >= 0)
@@ -82,6 +90,5 @@ avl_t *avl_remove(avl_t *root, int value)
 			root = binary_tree_rotate_left(root);
 		}
 	}
-
 	return (root);
 }
