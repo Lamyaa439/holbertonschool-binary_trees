@@ -1,14 +1,14 @@
 #include "binary_trees.h"
 
 /**
- * binary_tree_is_complete - Checks if a binary tree is complete
+ * is_complete_bt - Checks if a binary tree is complete
  * @tree: Pointer to the root node
  * @index: Index of the current node
  * @size: Number of nodes in the tree
  *
  * Return: 1 if complete, 0 otherwise
  */
-int binary_tree_is_complete(const binary_tree_t *tree, size_t index, size_t size)
+int is_complete_bt(const binary_tree_t *tree, size_t index, size_t size)
 {
 	if (!tree)
 		return (1);
@@ -16,8 +16,8 @@ int binary_tree_is_complete(const binary_tree_t *tree, size_t index, size_t size
 	if (index >= size)
 		return (0);
 
-	return (binary_tree_is_complete(tree->left, 2 * index + 1, size) &&
-		binary_tree_is_complete(tree->right, 2 * index + 2, size));
+	return (is_complete_bt(tree->left, 2 * index + 1, size) &&
+		is_complete_bt(tree->right, 2 * index + 2, size));
 }
 
 /**
@@ -69,7 +69,7 @@ int binary_tree_is_heap(const binary_tree_t *tree)
 
 	size = count_nodes(tree);
 
-	if (!binary_tree_is_complete(tree, 0, size))
+	if (!is_complete_bt(tree, 0, size))
 		return (0);
 
 	return (check_max_heap(tree));
