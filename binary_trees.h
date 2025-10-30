@@ -72,5 +72,6 @@ heap_t *array_to_heap(int *array, size_t size);
 
 /* Helper function for heap by level-index access */
 binary_tree_t *binary_tree_get_node_by_index(binary_tree_t *root, size_t index);
+binary_tree_t *heap_get_last(binary_tree_t *root);
 
 #endif /* BINARY_TREES_H */
