@@ -1,71 +1,105 @@
 #include "binary_trees.h"
 
+/* ---------- helpers ---------- */
+
 /**
- * swap_values - swaps values of two nodes
+ * heap_get_last - return last node in level-order
+ * @root: heap root
+ * Return: pointer to last node, or NULL
+ */
+binary_tree_t *heap_get_last(binary_tree_t *root)
+{
+	binary_tree_t *queue[1024];
+	size_t h = 0, t = 0, i = 0;
+
+	if (!root)
+		return (NULL);
+
+	queue[t++] = root;
+	while (h < t)
+	{
+		root = queue[h++];
+		if (root->left)
+			queue[t++] = root->left;
+		if (root->right)
+			queue[t++] = root->right;
+		/* أمان بسيط لحجم الطابور */
+		if (++i >= 1024)
+			break;
+	}
+	return (root);
+}
+
+/**
+ * swap_values - swap node values
  * @a: first node
  * @b: second node
  */
-void swap_values(heap_t *a, heap_t *b)
+static void swap_values(heap_t *a, heap_t *b)
 {
-    int tmp = a->n;
-    a->n = b->n;
-    b->n = tmp;
+	int tmp = a->n;
+
+	a->n = b->n;
+	b->n = tmp;
 }
 
 /**
- * heapify_down - restores heap property downward
- * @root: pointer to root
+ * heapify_down - restore max-heap property downward
+ * @root: start node
  */
-void heapify_down(heap_t *root)
+static void heapify_down(heap_t *root)
 {
-    heap_t *largest = root;
+	heap_t *largest;
 
-    if (root->left && root->left->n > largest->n)
-        largest = root->left;
-    if (root->right && root->right->n > largest->n)
-        largest = root->right;
+	while (root)
+	{
+		largest = root;
+		if (root->left && root->left->n > largest->n)
+			largest = root->left;
+		if (root->right && root->right->n > largest->n)
+			largest = root->right;
 
-    if (largest != root)
-    {
-        swap_values(root, largest);
-        heapify_down(largest);
-    }
+		if (largest == root)
+			break;
+
+		swap_values(root, largest);
+		root = largest;
+	}
 }
 
+/* ---------- main API ---------- */
+
 /**
- * heap_extract - extracts max value from Max Binary Heap
- * @root: double pointer to heap root
- * Return: value of removed node or 0 if fail
+ * heap_extract - extract max from a Max Binary Heap
+ * @root: address of heap root pointer
+ * Return: removed value, or 0 on failure/empty
  */
 int heap_extract(heap_t **root)
 {
-    heap_t *last, *node;
-    int value;
+	heap_t *last;
+	int val;
 
-    if (!root || !*root)
-        return (0);
+	if (!root || !*root)
+		return (0);
 
-    node = *root;
-    value = node->n;
+	val = (*root)->n;
+	last = (heap_t *)heap_get_last(*root);
 
-    last = heap_get_last(*root);
+	if (last == *root)
+	{
+		free(*root);
+		*root = NULL;
+		return (val);
+	}
 
-    if (last == *root)
-    {
-        free(*root);
-        *root = NULL;
-        return (value);
-    }
+	/* انقل قيمة آخر عقدة للقمة ثم احذف العقدة الأخيرة */
+	(*root)->n = last->n;
+	if (last->parent->right == last)
+		last->parent->right = NULL;
+	else
+		last->parent->left = NULL;
+	free(last);
 
-    (*root)->n = last->n;
-
-    if (last->parent->right == last)
-        last->parent->right = NULL;
-    else
-        last->parent->left = NULL;
-
-    free(last);
-    heapify_down(*root);
-
-    return (value);
+	heapify_down(*root);
+	return (val);
 }
