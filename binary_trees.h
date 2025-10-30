@@ -71,5 +71,6 @@ int *heap_to_sorted_array(heap_t *heap, size_t *size);
 /* Helpers for Heap project */
 binary_tree_t *binary_tree_get_node_by_index(binary_tree_t *root, size_t index);
 binary_tree_t *heap_get_last(binary_tree_t *root);
+int *heap_to_sorted_array(heap_t *heap, size_t *size);
 
 #endif /* BINARY_TREES_H */
