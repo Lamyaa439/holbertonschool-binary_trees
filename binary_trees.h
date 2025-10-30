@@ -1,7 +1,6 @@
 #ifndef BINARY_TREES_H
 #define BINARY_TREES_H
 
-#include <stddef.h>
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -26,10 +25,10 @@ typedef struct binary_tree_s bst_t;
 typedef struct binary_tree_s avl_t;
 typedef struct binary_tree_s heap_t;
 
-/* Printing */
+/* Printing helper */
 void binary_tree_print(const binary_tree_t *);
 
-/* Task 0 - 9 */
+/* Basic binary tree functions */
 binary_tree_t *binary_tree_node(binary_tree_t *parent, int value);
 binary_tree_t *binary_tree_insert_left(binary_tree_t *parent, int value);
 binary_tree_t *binary_tree_insert_right(binary_tree_t *parent, int value);
@@ -50,30 +49,27 @@ int binary_tree_is_perfect(const binary_tree_t *tree);
 binary_tree_t *binary_tree_sibling(binary_tree_t *node);
 binary_tree_t *binary_tree_uncle(binary_tree_t *node);
 
-/* Task 10 - BST */
+/* BST */
 bst_t *bst_insert(bst_t **tree, int value);
 bst_t *array_to_bst(int *array, size_t size);
 bst_t *bst_search(const bst_t *tree, int value);
 bst_t *bst_remove(bst_t *root, int value);
 
-/* Task 11 - AVL */
-int binary_tree_is_avl(const binary_tree_t *tree);
+/* AVL */
 avl_t *avl_insert(avl_t **tree, int value);
 avl_t *array_to_avl(int *array, size_t size);
+int binary_tree_is_avl(const binary_tree_t *tree);
 avl_t *avl_remove(avl_t *root, int value);
-int avl_is_sorted(const int *array, size_t size);
-
-/* Task 12 - AVL sorted array */
 avl_t *sorted_array_to_avl(int *array, size_t size);
 
-/* Task 13 - Max Binary Heap */
+/* Max Binary Heap */
 heap_t *heap_insert(heap_t **root, int value);
 heap_t *array_to_heap(int *array, size_t size);
 int heap_extract(heap_t **root);
+int *heap_to_sorted_array(heap_t *heap, size_t *size);
 
 /* Helpers for Heap project */
 binary_tree_t *binary_tree_get_node_by_index(binary_tree_t *root, size_t index);
 binary_tree_t *heap_get_last(binary_tree_t *root);
-binary_tree_t *heap_get_last(const binary_tree_t *root);
 
 #endif /* BINARY_TREES_H */
