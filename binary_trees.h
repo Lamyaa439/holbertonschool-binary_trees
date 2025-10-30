@@ -80,5 +80,6 @@ int binary_tree_is_heap(const binary_tree_t *tree);
 heap_t *array_to_heap(int *array, size_t size);
 heap_t *heap_extract(heap_t **root);
 heap_t *heap_insert(heap_t **root, int value);
+avl_t *avl_insert(avl_t **tree, int value);
 
 #endif /* _BINARY_TREES_H_ */
