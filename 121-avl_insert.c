@@ -1,10 +1,10 @@
 #include "binary_trees.h"
 
 /**
- * avl_insert_recursive - recursive insert and rebalance
- * @tree: double pointer to root
+ * avl_insert_recursive - inserts a value into an AVL tree recursively
+ * @tree: double pointer to the AVL tree root
  * @value: value to insert
- * Return: pointer to inserted node or NULL
+ * Return: pointer to created node, or NULL
  */
 binary_tree_t *avl_insert_recursive(avl_t **tree, int value)
 {
@@ -57,15 +57,15 @@ binary_tree_t *avl_insert_recursive(avl_t **tree, int value)
 }
 
 /**
- * avl_insert - inserts a value in an AVL Tree
- * @tree: pointer to pointer to root node
+ * avl_insert - inserts value in an AVL tree
+ * @tree: pointer to root pointer
  * @value: value to insert
- * Return: pointer to created node or NULL
+ * Return: pointer to new node, or NULL
  */
 avl_t *avl_insert(avl_t **tree, int value)
 {
     if (!tree)
         return (NULL);
 
-    return (avl_insert_recursive(tree, value));
+    return ((avl_t *)avl_insert_recursive(tree, value));
 }
