@@ -73,5 +73,6 @@ int heap_extract(heap_t **root);
 /* Helpers */
 binary_tree_t *binary_tree_get_node_by_index(binary_tree_t *root, size_t index);
 heap_t *array_to_heap(int *array, size_t size);
+int heap_extract(heap_t **root);
 
 #endif /* BINARY_TREES_H */
