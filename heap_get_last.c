@@ -1,17 +1,13 @@
 #include "binary_trees.h"
 
 /**
- * heap_get_last - gets last node in heap using BFS index rule
- * @root: pointer to root node
- * Return: pointer to last node
+ * heap_get_last - gets pointer to last node in heap by index
+ * @root: pointer to root
+ * @index: index (1-based)
+ *
+ * Return: pointer to node or NULL
  */
-binary_tree_t *heap_get_last(binary_tree_t *root)
+heap_t *heap_get_last(heap_t *root, size_t index)
 {
-    size_t size;
-    
-    if (!root)
-        return (NULL);
-
-    size = binary_tree_size(root);
-    return (binary_tree_get_node_by_index(root, size));
+    return (binary_tree_get_node_by_index(root, index));
 }
