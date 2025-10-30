@@ -1,12 +1,12 @@
 #include "binary_trees.h"
 
 /**
- * _avl_insert - recursive insert and rebalance
- * @tree: pointer to pointer to root
- * @value: value to insert
- * Return: pointer to inserted node or NULL
+ * avl_insert_recursive - Inserts a value into an AVL tree recursively
+ * @tree: Double pointer to the root node of the AVL tree
+ * @value: The value to insert into the tree
+ * Return: Pointer to the newly inserted node, or NULL on failure
  */
-binary_tree_t *_avl_insert(binary_tree_t **tree, int value)
+binary_tree_t *avl_insert_recursive(binary_tree_t **tree, int value)
 {
     binary_tree_t *node;
 
@@ -15,14 +15,14 @@ binary_tree_t *_avl_insert(binary_tree_t **tree, int value)
 
     if (value < (*tree)->n)
     {
-        node = _avl_insert(&(*tree)->left, value);
+        node = avl_insert_recursive(&((*tree)->left), value);
         if (node == NULL)
             return (NULL);
         (*tree)->left->parent = *tree;
     }
     else if (value > (*tree)->n)
     {
-        node = _avl_insert(&(*tree)->right, value);
+        node = avl_insert_recursive(&((*tree)->right), value);
         if (node == NULL)
             return (NULL);
         (*tree)->right->parent = *tree;
@@ -30,7 +30,7 @@ binary_tree_t *_avl_insert(binary_tree_t **tree, int value)
     else
         return (NULL);
 
-    /* Balance */
+    /* Balance check */
     if (binary_tree_balance(*tree) > 1)
     {
         if (value < (*tree)->left->n)
@@ -58,15 +58,15 @@ binary_tree_t *_avl_insert(binary_tree_t **tree, int value)
 }
 
 /**
- * avl_insert - inserts a value in an AVL Tree
- * @tree: pointer to pointer to root of tree
- * @value: value to insert
- * Return: pointer to created node or NULL
+ * avl_insert - Inserts a value into an AVL tree
+ * @tree: Pointer to the root node of the AVL tree
+ * @value: The value to insert
+ * Return: Pointer to the newly inserted node, or NULL on failure
  */
 binary_tree_t *avl_insert(binary_tree_t **tree, int value)
 {
     if (tree == NULL)
         return (NULL);
 
-    return (_avl_insert(tree, value));
+    return (avl_insert_recursive(tree, value));
 }
