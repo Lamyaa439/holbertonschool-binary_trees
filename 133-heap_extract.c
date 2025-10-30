@@ -4,7 +4,7 @@
  * heap_extract - Extracts the root value of a Max Binary Heap
  * @root: Double pointer to the root of the heap
  *
- * Return: The value stored in the root node, or 0 on failure
+ * Return: Value stored in the root node, or 0 on failure
  */
 int heap_extract(heap_t **root)
 {
@@ -15,7 +15,7 @@ int heap_extract(heap_t **root)
 		return (0);
 
 	value = (*root)->n;
-	last = heap_get_last(root);
+	last = heap_get_last(*root);
 
 	if (last == *root)
 	{
