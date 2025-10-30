@@ -74,5 +74,6 @@ int heap_extract(heap_t **root);
 /* Helpers for Heap project */
 binary_tree_t *binary_tree_get_node_by_index(binary_tree_t *root, size_t index);
 binary_tree_t *heap_get_last(binary_tree_t *root);
+binary_tree_t *heap_get_last(const binary_tree_t *root);
 
 #endif /* BINARY_TREES_H */
