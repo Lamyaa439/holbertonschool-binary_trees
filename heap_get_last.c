@@ -5,25 +5,26 @@
  * @root: pointer to root of heap
  * Return: pointer to last node, or NULL
  */
-binary_tree_t *heap_get_last(binary_tree_t *root)
+heap_t *heap_get_last(heap_t *root)
 {
-    binary_tree_t *queue[1024];
-    size_t head = 0, tail = 0;
+	heap_t *queue[1024];
+	size_t head = 0, tail = 0;
 
-    if (!root)
-        return (NULL);
+	if (!root)
+		return (NULL);
 
-    queue[tail++] = root;
+	queue[tail++] = root;
 
-    while (head < tail)
-    {
-        root = queue[head++];
+	while (head < tail)
+	{
+		root = queue[head++];
 
-        if (root->left)
-            queue[tail++] = root->left;
-        if (root->right)
-            queue[tail++] = root->right;
-    }
+		if (root->left)
+			queue[tail++] = root->left;
 
-    return (root);
+		if (root->right)
+			queue[tail++] = root->right;
+	}
+
+	return (root);
 }
