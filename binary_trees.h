@@ -2,31 +2,35 @@
 #define BINARY_TREES_H
 
 #include <stddef.h>
-#include <stdio.h>
 #include <stdlib.h>
+#include <stdio.h>
 
-/* Basic Binary Tree Node */
-typedef struct binary_tree_s
+/**
+ * struct binary_tree_s - Binary tree node
+ *
+ * @n: Integer stored in the node
+ * @parent: Pointer to the parent node
+ * @left: Pointer to the left child node
+ * @right: Pointer to the right child node
+ */
+struct binary_tree_s
 {
     int n;
     struct binary_tree_s *parent;
     struct binary_tree_s *left;
     struct binary_tree_s *right;
-} binary_tree_t;
+};
 
-/* Binary Search Tree Node */
+typedef struct binary_tree_s binary_tree_t;
 typedef struct binary_tree_s bst_t;
-
-/* AVL Tree Node */
 typedef struct binary_tree_s avl_t;
-
-/* Max Binary Heap Node */
 typedef struct binary_tree_s heap_t;
 
-/* Printing function */
+
+/* Printing helper */
 void binary_tree_print(const binary_tree_t *);
 
-/* Utilities */
+/* Basic binary tree functions */
 binary_tree_t *binary_tree_node(binary_tree_t *parent, int value);
 binary_tree_t *binary_tree_insert_left(binary_tree_t *parent, int value);
 binary_tree_t *binary_tree_insert_right(binary_tree_t *parent, int value);
@@ -47,32 +51,26 @@ int binary_tree_is_perfect(const binary_tree_t *tree);
 binary_tree_t *binary_tree_sibling(binary_tree_t *node);
 binary_tree_t *binary_tree_uncle(binary_tree_t *node);
 
-/* BST */
+/* BST functions */
 bst_t *bst_insert(bst_t **tree, int value);
 bst_t *array_to_bst(int *array, size_t size);
-bst_t *bst_search(const bst_t *tree, int value);
+binary_tree_t *bst_search(const bst_t *tree, int value);
 bst_t *bst_remove(bst_t *root, int value);
+int binary_tree_is_bst(const binary_tree_t *tree);
 
-/* AVL */
+/* AVL functions */
 avl_t *avl_insert(avl_t **tree, int value);
 avl_t *array_to_avl(int *array, size_t size);
 avl_t *avl_remove(avl_t *root, int value);
-avl_t *sorted_array_to_avl(int *array, size_t size);
-int avl_is_balanced(const binary_tree_t *tree);
+int binary_tree_is_avl(const binary_tree_t *tree);
 
-/* Rotations */
-binary_tree_t *binary_tree_rotate_left(binary_tree_t *tree);
-binary_tree_t *binary_tree_rotate_right(binary_tree_t *tree);
-
-/* Heap */
+/* Max Binary Heap functions */
 int binary_tree_is_heap(const binary_tree_t *tree);
 heap_t *heap_insert(heap_t **root, int value);
-heap_t *array_to_heap(int *array, size_t size);
 int heap_extract(heap_t **root);
+heap_t *array_to_heap(int *array, size_t size);
 
-/* Helpers */
+/* Helper function for heap by level-index access */
 binary_tree_t *binary_tree_get_node_by_index(binary_tree_t *root, size_t index);
-heap_t *array_to_heap(int *array, size_t size);
-int heap_extract(heap_t **root);
 
 #endif /* BINARY_TREES_H */
