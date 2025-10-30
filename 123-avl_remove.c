@@ -1,11 +1,11 @@
 #include "binary_trees.h"
 
 /**
- * bst_min_value - returns the node with the min value in a BST
- * @node: pointer to the BST node
- * Return: pointer to min node
+ * bst_min_value - returns the node with the minimum value in a BST
+ * @node: pointer to a BST node
+ * Return: pointer to the min node
  */
-bst_t *bst_min_value(bst_t *node)
+static bst_t *bst_min_value(bst_t *node)
 {
 	while (node && node->left)
 		node = node->left;
@@ -13,51 +13,89 @@ bst_t *bst_min_value(bst_t *node)
 }
 
 /**
- * bst_remove - remove a node in a BST
- * @root: pointer to the root node
+ * bst_remove - removes a value from a BST (fixes parent pointers)
+ * @root: pointer to root of BST
  * @value: value to remove
- * Return: pointer to the new root
+ * Return: pointer to new root
  */
-bst_t *bst_remove(bst_t *root, int value)
+static bst_t *bst_remove(bst_t *root, int value)
 {
-	bst_t *min;
-
 	if (!root)
 		return (NULL);
 
 	if (value < root->n)
+	{
 		root->left = bst_remove(root->left, value);
+		if (root->left)
+			root->left->parent = root;
+	}
 	else if (value > root->n)
+	{
 		root->right = bst_remove(root->right, value);
+		if (root->right)
+			root->right->parent = root;
+	}
 	else
 	{
-		if (!root->left)
+		bst_t *child, *succ;
+
+		/* node with at most one child */
+		if (!root->left || !root->right)
 		{
-			min = root->right;
-			if (min)
-				min->parent = root->parent;
+			child = root->left ? root->left : root->right;
+			if (child)
+				child->parent = root->parent;
 			free(root);
-			return (min);
+			return (child);
 		}
-		else if (!root->right)
-		{
-			min = root->left;
-			if (min)
-				min->parent = root->parent;
-			free(root);
-			return (min);
-		}
-		min = bst_min_value(root->right);
-		root->n = min->n;
-		root->right = bst_remove(root->right, min->n);
+
+		/* node with two children -> replace with inorder successor */
+		succ = bst_min_value(root->right);
+		root->n = succ->n;
+		root->right = bst_remove(root->right, succ->n);
+		if (root->right)
+			root->right->parent = root;
 	}
 	return (root);
 }
 
 /**
- * avl_remove - remove a node from an AVL tree
- * @root: pointer to root
- * @value: value to delete
+ * avl_rebalance - rebalances an AVL tree at given root
+ * @root: pointer to current root
+ * Return: pointer to new root after rotations (may be same)
+ */
+static avl_t *avl_rebalance(avl_t *root)
+{
+	int bal;
+
+	if (!root)
+		return (NULL);
+
+	bal = binary_tree_balance(root);
+
+	/* Left heavy */
+	if (bal > 1)
+	{
+		if (binary_tree_balance(root->left) < 0)
+			root->left = binary_tree_rotate_left(root->left);
+		root = binary_tree_rotate_right(root);
+	}
+	/* Right heavy */
+	else if (bal < -1)
+	{
+		if (binary_tree_balance(root->right) > 0)
+			root->right = binary_tree_rotate_right(root->right);
+		root = binary_tree_rotate_left(root);
+	}
+
+	/* ensure root->parent is consistent at top-level use */
+	return (root);
+}
+
+/**
+ * avl_remove - removes a value from an AVL tree and rebalances it
+ * @root: pointer to root of AVL tree
+ * @value: value to remove
  * Return: pointer to new root
  */
 avl_t *avl_remove(avl_t *root, int value)
@@ -65,30 +103,19 @@ avl_t *avl_remove(avl_t *root, int value)
 	if (!root)
 		return (NULL);
 
+	/* delete from BST while maintaining parent pointers */
 	root = (avl_t *)bst_remove(root, value);
+
+	/* if tree became empty */
 	if (!root)
 		return (NULL);
 
-	/* rebalance */
-	if (binary_tree_balance(root) > 1)
-	{
-		if (binary_tree_balance(root->left) >= 0)
-			root = binary_tree_rotate_right(root);
-		else
-		{
-			root->left = binary_tree_rotate_left(root->left);
-			root = binary_tree_rotate_right(root);
-		}
-	}
-	else if (binary_tree_balance(root) < -1)
-	{
-		if (binary_tree_balance(root->right) <= 0)
-			root = binary_tree_rotate_left(root);
-		else
-		{
-			root->right = binary_tree_rotate_right(root->right);
-			root = binary_tree_rotate_left(root);
-		}
-	}
+	/* rebalance at this root */
+	root = avl_rebalance(root);
+
+	/* top-level root should have NULL parent */
+	if (root)
+		root->parent = NULL;
+
 	return (root);
 }
